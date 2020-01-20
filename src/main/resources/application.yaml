@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: sandbox
+
+---
+
+spring:
+  profiles: sandbox
+  data:
+    mongodb:
+      host: localhost:27017
+      database: nInsite
+      uri: mongodb://localhost:27017/nInsite
+    web:
+      pageable:
+        default-page-size: 100
+
+---
