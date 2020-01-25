@@ -1,18 +1,20 @@
 package net.yeolrim.store.insite.config;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
+@ComponentScan(basePackages = {"net.yeolrim.store.insite"})
 @EnableConfigurationProperties(MongoProperties.class)
 @EnableMongoRepositories(basePackages = {"net.yeolrim.store.insite"})
-public class MongoConfig extends AbstractMongoClientConfiguration {
+public class MongoConfig extends AbstractMongoConfiguration {
 
     private final MongoProperties properties;
 
@@ -23,7 +25,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
-        return MongoClients.create(properties.getUri());
+        return new MongoClient(new MongoClientURI(properties.getUri()));
     }
 
     @Override
