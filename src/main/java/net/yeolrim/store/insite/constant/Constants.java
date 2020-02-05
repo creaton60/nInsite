@@ -1,12 +1,12 @@
 package net.yeolrim.store.insite.constant;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
+@Repository
 public class Constants {
 
-    private final String clientId = "ZbKLbYIpl_FPc8x08Gxi";
-    private final String clientSecret = "EyOgY5ddDN";
+    private final String clientId = "${naver.client.id}";
+    private final String clientSecret = "${naver.client.secret}";
 
     public String getClientId() {
         return this.clientId;
