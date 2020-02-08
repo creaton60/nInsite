@@ -10,7 +10,6 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -25,32 +24,34 @@ public class NaverApiUtils {
         this.constants = constants;
     }
 
-    public String postHttpClients() {
+    public String postHttpClients(String apiUrl, String body) {
         String clientId = constants.getClientId();
         String clientSecret = constants.getClientSecret();
 
         try {
-            String text = URLEncoder.encode("안녕하세요. 오늘 기분은 어떻습니까?", StandardCharsets.UTF_8);
-            String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
-            URL url = new URL(apiURL);
+//            String apiURL = "https://openapi.naver.com/v1/datalab/shopping/categories";
+//            String body = "{\"startDate\":\"2017-08-01\",\"endDate\":\"2017-09-30\",\"timeUnit\":\"month\",\"category\":[{\"name\":\"패션의류\",\"param\":[\"50000000\"]},{\"name\":\"화장품/미용\",\"param\":[\"50000002\"]}],\"device\":\"pc\",\"ages\":[\"20\",\"30\"],\"gender\":\"f\"}";
+            URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("X-Naver-Client-Id", clientId);
             con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            // post request
-            String postParams = "source=ko&target=en&text=" + text;
+            con.setRequestProperty("Content-Type", "application/json");
+
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postParams);
+            wr.writeBytes(body);
             wr.flush();
             wr.close();
+
             int responseCode = con.getResponseCode();
             BufferedReader br;
             if(responseCode==200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8));
             }
+
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = br.readLine()) != null) {
