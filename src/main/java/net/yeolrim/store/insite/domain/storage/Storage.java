@@ -18,5 +18,4 @@ public class Storage implements Serializable {
 
     //TODO: nInsite API 가져온 이후에 처리
 
-
 }
