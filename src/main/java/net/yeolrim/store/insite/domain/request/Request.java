@@ -1,6 +1,7 @@
 package net.yeolrim.store.insite.domain.request;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
@@ -10,6 +11,7 @@ import java.util.List;
 @Slf4j
 @Getter
 @ToString
+@NoArgsConstructor
 public class Request {
 
     @Id
@@ -22,5 +24,9 @@ public class Request {
     private String device;
     private String gender;
     private List<String> ages;
+
+    private Request(RequestDuration duration) {
+
+    }
 
 }
